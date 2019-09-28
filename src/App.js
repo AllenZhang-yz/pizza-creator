@@ -1,26 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import styled from 'styled-components';
+import EnterYourDetails from './components/EnterYourDetails';
+import SelectYourSize from './components/SelectYourSize';
+import ChooseYourToppings from './components/ChooseYourToppings';
+import Summary from './components/Summary';
+import Submit from './components/Submit';
 
-function App() {
+const StyledApp = styled.div`
+  width: 80%;
+  margin: 0 auto;
+`;
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <StyledApp>
+      <EnterYourDetails />
+      <SelectYourSize />
+      <ChooseYourToppings />
+      <Summary />
+      <Submit />
+    </StyledApp>
   );
-}
+};
 
 export default App;
