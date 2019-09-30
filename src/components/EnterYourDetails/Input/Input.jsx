@@ -84,7 +84,7 @@ class Input extends React.Component {
   // }
 
   render() {
-    const { label, className, value, onChange } = this.props;
+    const { label, className, value, onChange, formDirty } = this.props;
     const { dirty, errorMessage } = this.state;
 
     // const errorMessage = this.getErrorMessage();
@@ -93,7 +93,7 @@ class Input extends React.Component {
       <StyledInput className={className}>
         <LabelAndError>
           <Label>{label}</Label>
-          {(dirty && errorMessage) && (
+          {(dirty && errorMessage) && (formDirty && errorMessage)(
             <Error>{errorMessage}</Error>
           )}
         </LabelAndError>
