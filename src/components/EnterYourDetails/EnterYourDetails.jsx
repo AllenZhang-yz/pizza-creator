@@ -1,14 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Section from '../Section';
-import Input from './Input';
-
-const StyledInput = styled.input`
-  width: 100%;
-  height: 25px;
-  outline: none;
-  font-size: 16px;
-`;
+import Input, { validator } from './Input';
 
 const InputWrapper = styled.div`
   display: grid;
@@ -19,75 +12,108 @@ const InputWrapper = styled.div`
 class EnterYourDetails extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      enterYourDetails: [
+      formFields: [
         {
           label: 'name',
-          error: 'Please input name',
+          validations: [{
+            validator: validator.isNotEmpty,
+            message: 'Name is required',
+          }],
           value: '',
-          showErr: false,
-          touched: false
         },
         {
           label: 'email',
-          error: 'Please input email',
+          validations: [{
+            validator: validator.isNotEmpty,
+            message: 'Email is required',
+          }, {
+            validator: validator.isEmail,
+            message: 'Please input a valid email address',
+          }],
           value: '',
-          showErr: false,
-          touched: false
         },
         {
           label: 'confirm email',
-          error: 'Please confirm email',
+          validations: [{
+            validator: validator.isEmail,
+            message: 'Email is required',
+          }, {
+            validator: validator.isIdentical,
+            message: 'Confirm email address is not same as email address',
+            options: {
+              target: () => this.state.formFields.find(({ label }) => label === 'email').value,
+            }
+          }],
           value: '',
-          showErr: false,
-          touched: false
         },
         {
           label: 'address',
-          error: 'Please input address',
+          validations: [{
+            validator: 'isNotEmpty',
+            message: 'Address is required',
+          }],
           value: '',
-          showErr: false,
-          touched: false
         },
         {
           label: 'postcode',
-          error: 'Please input postcode',
+          validations: [{
+            validator: 'isNotEmpty',
+            message: 'Postcode is required',
+          }],
           value: '',
-          showErr: false,
-          touched: false
         },
         {
           label: 'contact number',
-          error: 'Please input contact number',
+          validations: [{
+            validator: 'isRegex',
+            message: 'Please input a valid contact number',
+            expression: /(04){\d}8/,
+          },],
           value: '',
-          showErr: false,
-          touched: false
         }
-      ]
+      ],
     };
+
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
-  enterDetailsHandler = (e, el) => {
-    this.setState({ value: e.target.value, touched: true });
-    // if (el.value === '') {
-    //   this.setState({ showErr: true });
-    // }
-  };
+  handleInputChange(label) {
+    return ({ target: { value } }, callback) => {
+      this.setState(prevState => {
+        const formFields = prevState.formFields.map((formField) => {
+          if (formField.label === label) {
+            return {
+              ...formField,
+              value,
+            };
+          }
+
+          return formField;
+        });
+
+        return {
+          formFields,
+        }
+      }, callback);
+    }
+  }
+
+
 
   render() {
     return (
       <Section title="Enter your details">
         <InputWrapper>
-          {this.state.enterYourDetails.map(el => (
+          {this.state.formFields.map(({ label, validations, value }) => (
             <Input
-              key={el.label}
-              label={el.label}
-              error={el.error}
-              showErr={el.showErr}
-              touched={el.touched}
-            >
-              <StyledInput />
-            </Input>
+              key={label}
+              label={label}
+              validations={validations}
+              value={value}
+              onChange={this.handleInputChange(label)}
+            />
           ))}
         </InputWrapper>
       </Section>
