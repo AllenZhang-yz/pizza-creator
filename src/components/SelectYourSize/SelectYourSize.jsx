@@ -12,29 +12,30 @@ const SizeWrapper = styled.div`
 class SelectYourSize extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      selectedSize: null,
       sizes: [
         { price: 9.99, scale: 'small' },
         { price: 10.99, scale: 'medium' },
         { price: 11.99, scale: 'large' }
       ],
-    };
+    }
   }
 
   render() {
+    const { sizes } = this.state;
+    const { selectedSize, onSizeSelected } = this.props;
+
     return (
       <Section title="Select your size">
         <SizeWrapper>
-          {this.state.sizes.map((size) => (
+          {sizes.map((size) => (
             <Size 
               key={size.scale}
               price={size.price} 
               scale={size.scale} 
-              selected={size === this.state.selectedSize}
-              onClick={() => this.setState({
-                selectedSize: size
-              })}
+              selected={size === selectedSize}
+              onClick={() => onSizeSelected(size)}
             />
           ))}
         </SizeWrapper>

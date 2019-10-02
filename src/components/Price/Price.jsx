@@ -6,6 +6,6 @@ const StyledPrice = styled.div`
   font-size: 14px;
 `;
 
-const Price = ({ price }) => <StyledPrice>${price}</StyledPrice>;
+const Price = ({ price }) => <StyledPrice>${price.toFixed(2)}</StyledPrice>;
 
 export default Price;
