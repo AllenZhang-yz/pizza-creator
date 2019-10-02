@@ -5,6 +5,7 @@ import Input, { validator } from './Input';
 
 const InputWrapper = styled.div`
   display: grid;
+  gap: 1rem;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, 1fr);
 `;
@@ -38,7 +39,7 @@ class EnterYourDetails extends Component {
           label: 'confirm email',
           validations: [{
             validator: validator.isEmail,
-            message: 'Email is required',
+            message: 'Please input a valid email address',
           }, {
             validator: validator.isIdentical,
             message: 'Confirm email address is not same as email address',
@@ -51,7 +52,7 @@ class EnterYourDetails extends Component {
         {
           label: 'address',
           validations: [{
-            validator: 'isNotEmpty',
+            validator: validator.isNotEmpty,
             message: 'Address is required',
           }],
           value: '',
@@ -59,7 +60,7 @@ class EnterYourDetails extends Component {
         {
           label: 'postcode',
           validations: [{
-            validator: 'isNotEmpty',
+            validator: validator.isNotEmpty,
             message: 'Postcode is required',
           }],
           value: '',
@@ -67,10 +68,10 @@ class EnterYourDetails extends Component {
         {
           label: 'contact number',
           validations: [{
-            validator: 'isRegex',
-            message: 'Please input a valid contact number',
-            expression: /(04){\d}8/,
-          },],
+            // validator: 'isRegex',
+            validator: validator.isNotEmpty,
+            message: 'Contact number is required',
+          }],
           value: '',
         }
       ],
@@ -99,8 +100,6 @@ class EnterYourDetails extends Component {
       }, callback);
     }
   }
-
-
 
   render() {
     return (

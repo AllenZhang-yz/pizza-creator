@@ -1,16 +1,21 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const StyledInput = styled.div`
-  width: 80%;
-  margin-bottom: 15px;
 `;
 
 const HTMLInput = styled.input`
+  box-sizing: border-box;
   width: 100%;
-  height: 25px;
   outline: none;
-  font-size: 16px;
+  font-size: 1rem;
+  padding: 0.75rem 0.5rem;
+  border: 1px solid rgb(238, 238, 238);
+
+  ${(props) => props.error && css`
+    border-color: red;
+    color: red;  
+  `}
 `;
 
 const LabelAndError = styled.div`
@@ -18,16 +23,15 @@ const LabelAndError = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  margin-bottom: 0.25rem;
 `;
 
 const Label = styled.label`
   text-transform: uppercase;
-  font-size: 15px;
 `;
 
 const Error = styled.div`
   color: red;
-  font-size: 10px;
 `;
 
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
@@ -84,20 +88,24 @@ class Input extends React.Component {
   // }
 
   render() {
-    const { label, className, value, onChange, formDirty } = this.props;
+    const { label, className, value, onChange } = this.props;
     const { dirty, errorMessage } = this.state;
 
     // const errorMessage = this.getErrorMessage();
+
+    // const error = dirty && errorMessage;
+    const error = Boolean(dirty && errorMessage);
 
     return (
       <StyledInput className={className}>
         <LabelAndError>
           <Label>{label}</Label>
-          {(dirty && errorMessage) && (formDirty && errorMessage)(
+          {error && (
             <Error>{errorMessage}</Error>
           )}
         </LabelAndError>
         <HTMLInput
+          error={error}
           value={value}
           onChange={(event) => {
             this.setState({ dirty: true });
