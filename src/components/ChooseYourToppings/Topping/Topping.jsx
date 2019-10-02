@@ -5,23 +5,21 @@ import styled from 'styled-components';
 const ToppingWrapper = styled.div`
   display: flex;
   height: 45px;
-  width: 320px;
   align-items: center;
   background-color: #fcfafa;
-  margin-bottom: 15px;
 `;
 
-const SVGWapper = styled.div`
+const SVGWrapper = styled.div`
   height: 100%;
-  width: 50px;
   background-color: #e8e7e1;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
-const SVG = styled.div`
+const SVG = styled(ReactSVG)`
   width: 35px;
+  padding: 0.5rem;
   height: auto;
 `;
 
@@ -30,59 +28,41 @@ const Name = styled.div`
   text-transform: capitalize;
   color: #000000;
   padding-left: 20px;
-  width: 140px;
-`;
-
-const AmountAjust = styled.div`
-  display: flex;
-  height: 100%;
-  /* justify-content: space-between; */
-  align-items: center;
-  width: 110px;
-  background-color: #e8e7e1;
+  flex: 1;
 `;
 
 const Amount = styled.div`
-  height: 100%;
-  width: 50px;
-  background-color: #fcfafa;
+  height: 100%;  
+  width: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
-const Minus = styled.div`
+const AmountAdjust = styled.div`
   height: 100%;
   width: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  background-color: #e8e7e1;
 `;
 
-const Plus = styled.div`
-  height: 100%;
-  width: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-`;
-
-const Topping = ({ name, amount }) => {
+const Topping = ({ 
+  name, 
+  amount, 
+  onAmountChange,
+}) => {
   return (
     <ToppingWrapper>
-      <SVGWapper>
-        <SVG>
-          <ReactSVG src={require(`../../../assets/toppings/${name}.svg`)} />
-        </SVG>
-      </SVGWapper>
+      <SVGWrapper>
+        <SVG src={require(`../../../assets/toppings/${name}.svg`)} />
+      </SVGWrapper>
       <Name>{name}</Name>
-      <AmountAjust>
-        <Minus>-</Minus>
-        <Amount>{amount}</Amount>
-        <Plus>+</Plus>
-      </AmountAjust>
+      <AmountAdjust onClick={() => onAmountChange(-1)}>-</AmountAdjust>
+      <Amount>{amount}</Amount>
+      <AmountAdjust onClick={() => onAmountChange(+1)}>+</AmountAdjust>
     </ToppingWrapper>
   );
 };

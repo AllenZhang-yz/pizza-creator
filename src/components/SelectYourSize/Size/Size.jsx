@@ -33,7 +33,7 @@ const Scale = styled.div`
 
 const Size = ({ price, scale, selected, onClick }) => (
   <StyledSize onClick={onClick}>
-    <Img selected={selected} src={pizzaImg} alt="pizzaIMG" scale={scale} />
+    <Img selected={selected} src={pizzaImg} alt={scale} scale={scale} />
     <div>
       <Scale>{scale}</Scale>
       <Price price={price} />
